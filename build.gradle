@@ -1,0 +1,25 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'pl.allegro.tech.build.axion-release' version '1.18.7'
+}
+
+group = 'io.github.black_dial'
+version = '0.1.0'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+application {
+    mainClass = 'io.github.black_dial.white_noise.Main'
+}
