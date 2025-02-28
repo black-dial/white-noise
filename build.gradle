@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'io.github.black_dial'
-version = '0.1.0'
+version = scmVersion.version
 
 repositories {
     mavenCentral()
