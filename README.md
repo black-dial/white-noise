@@ -21,14 +21,17 @@ classDiagram
         class Repository~E~ {
             <<abstract>>
             -List~E~ memory
+            +List~E~ getMemory()
             +add(element : E)
             +update(element : E)
-            +load()
-            +write()
+            +load()*
+            +write()*
         }
         class FileRepository~E~ {
             -File file
-            -ObjectMapper mapper
+            -ObjectMapper mapper$
+            +getMapper()$ ObjectMapper
+            +setMapper(ObjectMapper mapper)
             +load()
             +write()
         }
