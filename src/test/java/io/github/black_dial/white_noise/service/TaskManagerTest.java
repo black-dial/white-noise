@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +24,11 @@ public class TaskManagerTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        taskManager = new TaskManager(repository);
+        try {
+            taskManager = new TaskManager(repository);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Test

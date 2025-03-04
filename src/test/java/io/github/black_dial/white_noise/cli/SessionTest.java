@@ -35,7 +35,7 @@ public class SessionTest {
 
     @Test
     void shouldListPendingTasks() {
-        session.list(new String[]{"--status", "PENDING"});
+        session.list(new String[]{"PENDING"});
         verify(taskManager).filterTasksByStatus(Task.Status.PENDING);
     }
 

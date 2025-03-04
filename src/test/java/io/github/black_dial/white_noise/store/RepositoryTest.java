@@ -4,15 +4,18 @@ import io.github.black_dial.white_noise.data.Task;
 import io.github.black_dial.white_noise.data.TaskTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class RepositoryTest {
+    @Spy
     private TestRepository<Task> repository;
 
     @BeforeEach
     void setUp() {
-        repository = new TestRepository<>();
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
