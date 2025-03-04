@@ -29,17 +29,21 @@ classDiagram
         }
         class FileRepository~E~ {
             -File file
+            -TypeReference~E[]~ arrayTypeReference
             -ObjectMapper mapper$
-            +getMapper()$ ObjectMapper
-            +setMapper(ObjectMapper mapper)
+            -getFile() File
+            ~getArrayTypeReference() TypeReference~E[]~
+            -getMapper()$ ObjectMapper
+            ~setMapper(ObjectMapper mapper)$
             +load()
             +write()
         }
     }
     namespace service {
-        class Manager~E~ {
+        class Manager~T~ {
             <<abstract>>
-            -Repository~E~ repository
+            -Repository~T~ repository
+            ~getRepository() Repository~T~
         }
         class TaskManager {
             +createTask(desc: String) Task
@@ -50,6 +54,7 @@ classDiagram
     namespace cli {
         class Session {
             -TaskManager taskManager
+            ~getTaskManager() TaskManager
             +add(args: String[])
             +list(args : String[])
             +check(args: String[])
