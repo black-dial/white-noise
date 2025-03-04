@@ -35,13 +35,13 @@ public class SessionTest {
 
     @Test
     void shouldListPendingTasks() {
-        session.list(new String[]{"PENDING"});
+        session.list(new String[]{Task.Status.PENDING.toString()});
         verify(taskManager).filterTasksByStatus(Task.Status.PENDING);
     }
 
     @Test
     void shouldCheckTask() {
-        session.check(new String[]{"1"});
+        session.check(new String[]{TaskTest.TEST_ID.toString()});
         verify(taskManager).updateTask(1, Task.Status.COMPLETED);
     }
 }
