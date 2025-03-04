@@ -6,7 +6,7 @@ import io.github.black_dial.white_noise.service.TaskManager;
 public class Session {
     private final TaskManager taskManager;
 
-    Session(TaskManager taskManager) {
+    public Session(TaskManager taskManager) {
         this.taskManager = taskManager;
     }
 
@@ -21,8 +21,8 @@ public class Session {
     public void list(String[] args) {
         Task.Status status = null;
         if(args.length == 1) {
-            for (Task.Status s : Task.Status.values())
-                if (args[0].toUpperCase().equals(s.toString())) status = s;
+            for(Task.Status s : Task.Status.values())
+                if(args[0].toUpperCase().equals(s.toString())) status = s;
             if(status == null) throw new RuntimeException();
         }
         getTaskManager().filterTasksByStatus(status);

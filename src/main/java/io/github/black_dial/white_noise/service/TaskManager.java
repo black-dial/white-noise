@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 public class TaskManager extends Manager<Task> {
     private Integer lastIssuedId;
 
-    TaskManager(Repository<Task> repository) throws IOException {
+    public TaskManager(Repository<Task> repository) throws IOException {
         super(repository);
         Task lastIssuedTask = (repository.getMemory()).stream().max(Comparator.naturalOrder()).orElse(null);
         lastIssuedId = lastIssuedTask == null ? 0 : lastIssuedTask.getId();

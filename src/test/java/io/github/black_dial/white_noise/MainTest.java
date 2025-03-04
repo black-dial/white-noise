@@ -31,7 +31,7 @@ public class MainTest {
 
     @Test
     void shouldCallAdd() {
-        Main.main(new String[]{Main.VERB.ADD.toString().toLowerCase(), TaskTest.TEST_DESC});
+        Main.main(new String[]{Main.Verb.ADD.toString().toLowerCase(), TaskTest.TEST_DESC});
 
         ArgumentCaptor<String[]> captor = ArgumentCaptor.forClass(String[].class);
         verify(session).add(captor.capture());
@@ -40,17 +40,17 @@ public class MainTest {
 
     @Test
     void shouldCallList() {
-        Main.main(new String[]{Main.VERB.LIST.toString().toLowerCase()});
+        Main.main(new String[]{Main.Verb.LIST.toString().toLowerCase()});
 
         verify(session).list(new String[]{});
     }
 
     @Test
     void shouldCallCheck() {
-        Main.main(new String[]{Main.VERB.LIST.toString().toLowerCase(), TaskTest.TEST_ID.toString()});
+        Main.main(new String[]{Main.Verb.CHECK.toString().toLowerCase(), TaskTest.TEST_ID.toString()});
 
         ArgumentCaptor<String[]> captor = ArgumentCaptor.forClass(String[].class);
-        verify(session).list(captor.capture());
+        verify(session).check(captor.capture());
         assertArrayEquals(new String[]{TaskTest.TEST_ID.toString()}, captor.getValue());
     }
 
