@@ -9,6 +9,9 @@ import org.mockito.Spy;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -21,24 +24,25 @@ public class FileRepositoryTest {
     @Spy
     private ObjectMapper mapper;
 
-    public FileRepositoryTest() {
-        super();
-        FileRepository.setMapper(mapper);
-    }
-
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        fileRepository = new FileRepository<>(testFile);
+        FileRepository.setMapper(mapper);
         if(testFile.exists()) assertTrue(testFile.delete());
+        try {
+            fileRepository = new FileRepository<>(testFile);
+            Files.write(testFile.toPath(), List.of("[", "]"), StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Test
     void shouldLoadObjectsFromStorage() {
-        fileRepository.load();
-
         try {
-            verify(mapper).readValue(testFile, Task[].class);
+            fileRepository.load();
+
+            verify(mapper).readValue(testFile, fileRepository.getArrayTypeReference());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -46,9 +50,9 @@ public class FileRepositoryTest {
 
     @Test
     void shouldWriteObjectsIntoStorage() {
-        fileRepository.write();
-
         try {
+            fileRepository.write();
+
             verify(mapper).writeValue(testFile, fileRepository.getMemory());
         } catch (IOException e) {
             throw new RuntimeException(e);

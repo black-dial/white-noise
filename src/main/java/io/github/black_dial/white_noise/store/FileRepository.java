@@ -1,18 +1,44 @@
 package io.github.black_dial.white_noise.store;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.List;
 
 public class FileRepository<E> extends Repository<E> {
-    private File file;
-    private static ObjectMapper mapper; //TODO: mark static in diagram
+    private final File file;
+    private final TypeReference<E[]> arrayTypeReference = new TypeReference<>() {};
+    private static ObjectMapper mapper;
 
-    public FileRepository(File file) {}
+    public FileRepository(File file) throws IOException {
+        this.file = file;
+        assert file.exists() || file.createNewFile();
+    }
 
-    public static ObjectMapper getMapper() {return null;} //TODO: add method in diagram
-    public static void setMapper(ObjectMapper mapper) {} //TODO: add method in diagram
+    private File getFile() {
+        return file;
+    }
 
-    public void load() {}
-    public void write() {}
+    TypeReference<E[]> getArrayTypeReference() {
+        return arrayTypeReference;
+    }
+
+    private static ObjectMapper getMapper() {
+        return mapper;
+    }
+
+    static void setMapper(ObjectMapper mapper) {
+        FileRepository.mapper = mapper;
+    }
+
+    public void load() throws IOException {
+        getMemory().clear();
+        getMemory().addAll(List.of(getMapper().readValue(getFile(), getArrayTypeReference())));
+    }
+
+    public void write() throws IOException {
+        getMapper().writeValue(getFile(), getMemory());
+    }
 }
