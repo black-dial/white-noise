@@ -1,5 +1,6 @@
 package io.github.black_dial.white_noise.store;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.black_dial.white_noise.data.Task;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,9 +10,7 @@ import org.mockito.Spy;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -30,8 +29,8 @@ public class FileRepositoryTest {
         FileRepository.setMapper(mapper);
         if(testFile.exists()) assertTrue(testFile.delete());
         try {
-            fileRepository = new FileRepository<>(testFile);
-            Files.write(testFile.toPath(), List.of("[", "]"), StandardCharsets.UTF_8);
+            fileRepository = new FileRepository<>(testFile, new TypeReference<>() {});
+            Files.write(testFile.toPath(), "[ ]".getBytes());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -42,7 +41,7 @@ public class FileRepositoryTest {
         try {
             fileRepository.load();
 
-            verify(mapper).readValue(testFile, fileRepository.getArrayTypeReference());
+            verify(mapper).readValue(testFile, fileRepository.getListType());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -52,10 +51,9 @@ public class FileRepositoryTest {
     void shouldWriteObjectsIntoStorage() {
         try {
             fileRepository.write();
-
-            verify(mapper).writeValue(testFile, fileRepository.getMemory());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        verify(mapper).writerWithDefaultPrettyPrinter();
     }
 }

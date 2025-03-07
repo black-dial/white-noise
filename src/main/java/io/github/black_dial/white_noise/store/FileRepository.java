@@ -9,36 +9,37 @@ import java.util.List;
 
 public class FileRepository<E> extends Repository<E> {
     private final File file;
-    private final TypeReference<E[]> arrayTypeReference = new TypeReference<>() {};
+    private final TypeReference<List<E>> listType;
     private static ObjectMapper mapper;
 
-    public FileRepository(File file) throws IOException {
+    public FileRepository(File file, TypeReference<List<E>> listType) throws IOException {
+        super();
         this.file = file;
-        assert file.exists() || file.createNewFile();
+        this.listType = listType;
     }
 
     private File getFile() {
         return file;
     }
 
-    TypeReference<E[]> getArrayTypeReference() {
-        return arrayTypeReference;
+    TypeReference<List<E>> getListType() {
+        return listType;
     }
 
-    private static ObjectMapper getMapper() {
+    public static ObjectMapper getMapper() {
         return mapper;
     }
 
-    static void setMapper(ObjectMapper mapper) {
+    public static void setMapper(ObjectMapper mapper) {
         FileRepository.mapper = mapper;
     }
 
     public void load() throws IOException {
         getMemory().clear();
-        getMemory().addAll(List.of(getMapper().readValue(getFile(), getArrayTypeReference())));
+        getMemory().addAll(getMapper().readValue(getFile(), getListType()));
     }
 
     public void write() throws IOException {
-        getMapper().writeValue(getFile(), getMemory());
+        getMapper().writerWithDefaultPrettyPrinter().writeValue(getFile(), getMemory());
     }
 }

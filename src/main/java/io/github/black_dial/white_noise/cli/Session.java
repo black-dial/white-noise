@@ -3,6 +3,8 @@ package io.github.black_dial.white_noise.cli;
 import io.github.black_dial.white_noise.data.Task;
 import io.github.black_dial.white_noise.service.TaskManager;
 
+import java.io.IOException;
+
 public class Session {
     private final TaskManager taskManager;
 
@@ -10,15 +12,16 @@ public class Session {
         this.taskManager = taskManager;
     }
 
-    TaskManager getTaskManager() {
+    private TaskManager getTaskManager() {
         return taskManager;
     }
 
-    public void add(String[] args) {
+    public Void add(String[] args) {
         getTaskManager().createTask(args[0]);
+        return null;
     }
 
-    public void list(String[] args) {
+    public Void list(String[] args) {
         Task.Status status = null;
         if(args.length == 1) {
             for(Task.Status s : Task.Status.values())
@@ -26,9 +29,15 @@ public class Session {
             if(status == null) throw new RuntimeException();
         }
         getTaskManager().filterTasksByStatus(status);
+        return null;
     }
 
-    public void check(String[] args) {
+    public Void check(String[] args) {
         getTaskManager().updateTask(Integer.valueOf(args[0]), Task.Status.COMPLETED);
+        return null;
+    }
+
+    public void end() throws IOException {
+        getTaskManager().getRepository().write();
     }
 }
