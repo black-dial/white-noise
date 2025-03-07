@@ -5,9 +5,11 @@ import java.util.Objects;
 public class Task implements Comparable<Task> {
     public enum Status {PENDING, COMPLETED}
 
-    private final Integer id;
-    private final String desc;
+    private Integer id;
+    private String desc;
     private Status status;
+
+    public Task() {}
 
     public Task(Integer id, String desc, Status status) {
         this.id = id;

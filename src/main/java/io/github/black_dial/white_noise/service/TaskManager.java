@@ -13,6 +13,7 @@ public class TaskManager extends Manager<Task> {
 
     public TaskManager(Repository<Task> repository) throws IOException {
         super(repository);
+        repository.load();
         Task lastIssuedTask = (repository.getMemory()).stream().max(Comparator.naturalOrder()).orElse(null);
         lastIssuedId = lastIssuedTask == null ? 0 : lastIssuedTask.getId();
     }

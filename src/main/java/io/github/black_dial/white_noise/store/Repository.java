@@ -9,7 +9,7 @@ public abstract class Repository<E> {
 
     private final List<E> memory;
 
-    Repository() {
+    public Repository() {
         memory = new ArrayList<>();
     }
 
