@@ -54,6 +54,7 @@ public class FileRepositoryTest {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
         verify(mapper).writerWithDefaultPrettyPrinter();
     }
 }

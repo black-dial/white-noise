@@ -61,6 +61,7 @@ public class TaskManagerTest {
                 new Task(TaskTest.TEST_ID+1, TaskTest.TEST_DESC+1, Task.Status.COMPLETED)
         ));
         List<Task> pendingTasks = taskManager.filterTasksByStatus(Task.Status.PENDING);
+
         assertNotNull(pendingTasks);
         assertEquals(1, pendingTasks.size());
         assertEquals(TaskTest.TEST_DESC, pendingTasks.get(0).getDesc());
