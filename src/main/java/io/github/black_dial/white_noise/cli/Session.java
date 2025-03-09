@@ -28,7 +28,8 @@ public class Session {
                 if(args[0].toUpperCase().equals(s.toString())) status = s;
             if(status == null) throw new RuntimeException();
         }
-        getTaskManager().filterTasksByStatus(status);
+        for(Task task : getTaskManager().filterTasksByStatus(status))
+            System.out.println(task);
         return null;
     }
 

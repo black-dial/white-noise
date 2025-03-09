@@ -49,4 +49,9 @@ public class Task implements Comparable<Task> {
     public int compareTo(Task o) {
         return getId()-o.getId();
     }
+
+    @Override
+    public String toString() {
+        return String.format("[%c] %s", getStatus() == Status.COMPLETED ? 'x' : ' ', getDesc());
+    }
 }

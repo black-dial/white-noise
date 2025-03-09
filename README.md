@@ -18,6 +18,7 @@ classDiagram
             +hashCode() int
             +equals(Object obj) boolean
             +compareTo(Task o) int
+            +toString() String
         }
         class Status {
             <<enumeration>>

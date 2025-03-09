@@ -34,6 +34,8 @@ public class TaskManager extends Manager<Task> {
     }
 
     public List<Task> filterTasksByStatus(Task.Status status) {
-        return getRepository().getMemory().stream().filter(t -> t.getStatus() == status).collect(Collectors.toList());
+        return status == null ?
+                getRepository().getMemory() :
+                getRepository().getMemory().stream().filter(t -> t.getStatus() == status).collect(Collectors.toList());
     }
 }
